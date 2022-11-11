@@ -1,5 +1,5 @@
 {
-  "name": "multer-ftp2",
+  "name": "multer-ftp-storage",
   "version": "1.0.0",
   "description": "FTP storage for multer",
   "main": "storage.js",
@@ -7,7 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node storage.js"
   },
-  "keywords": [],
+  "keywords": [
+    "multer",
+    "multer-storage",
+    "FTP multer",
+    "FTP storage"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
