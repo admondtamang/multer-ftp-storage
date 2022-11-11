@@ -1,0 +1,24 @@
+{
+  "name": "multer-ftp2",
+  "version": "1.0.0",
+  "description": "FTP storage for multer",
+  "main": "storage.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node storage.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "basic-ftp": "^5.0.2",
+    "bluebird": "^3.7.2",
+    "easy-ftp": "^0.4.2",
+    "express": "^4.18.2",
+    "ftp": "^0.3.10",
+    "lodash": "^4.17.21",
+    "lodash.defaults": "^4.2.0",
+    "multer": "1.4.5-lts.1",
+    "path": "^0.12.7"
+  }
+}
