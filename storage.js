@@ -1,6 +1,6 @@
-var fs = require('fs');
-const { fileUpload, removeFile } = require('./lib/ftp');
-const { ftp_config, default_filename } = require('./lib/utils');
+const fs = require("fs");
+const { fileUpload, removeFile } = require("./lib/ftp");
+const { ftp_config, default_filename } = require("./lib/utils");
 
 function FTPStorage(opts) {
   this.ftp_config = opts.ftp_config || ftp_config;
@@ -21,11 +21,12 @@ FTPStorage.prototype._handleFile = async function _handleFile(req, file, cb) {
   if (this.local_path) {
     var outStream = fs.createWriteStream(filename);
     file.stream.pipe(outStream);
-    outStream.on('error', cb);
-    outStream.on('finish', async function () {
+    outStream.on("error", cb);
+    outStream.on("finish", async function () {
       cb(null, {
-        path: local_path + filename,
+        path: this.local_path + filename,
         size: outStream.bytesWritten,
+        filename: filename,
       });
     });
   }
