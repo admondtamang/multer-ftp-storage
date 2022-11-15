@@ -10,21 +10,27 @@ function FTPStorage(opts) {
 
 FTPStorage.prototype._handleFile = async function _handleFile(req, file, cb) {
   const filename = this.filename(req, file);
+  const local_path = this.local_path;
+
   // upload to FTP
-  await fileUpload(ftp_config, file.stream, filename);
-  if (!this.local_path)
-    cb(null, {
-      path: filename,
-    });
+  const { size } = await fileUpload(this.ftp_config, file.stream, filename);
+  const result = {
+    path: filename,
+    filename: filename,
+    size,
+  };
+
+  if (!local_path) cb(null, result);
 
   // if you want to save locally
-  if (this.local_path) {
-    var outStream = fs.createWriteStream(filename);
+  if (local_path) {
+    const outStream = fs.createWriteStream(local_path + filename);
+
     file.stream.pipe(outStream);
     outStream.on("error", cb);
     outStream.on("finish", async function () {
       cb(null, {
-        path: this.local_path + filename,
+        path: local_path + filename,
         size: outStream.bytesWritten,
         filename: filename,
       });
@@ -33,9 +39,9 @@ FTPStorage.prototype._handleFile = async function _handleFile(req, file, cb) {
 };
 
 FTPStorage.prototype._removeFile = async function _removeFile(req, file, cb) {
-  if (this.local_path) fs(file.path, cb);
+  if (this.local_path) fs.unlinkSync(file.path, cb);
 
-  await removeFile(file.path);
+  await removeFile(file.originalname, this.ftp_config);
 };
 
 module.exports = function (opts) {
